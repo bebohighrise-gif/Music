@@ -6,3 +6,4 @@ pydub
 yt-dlp
 tenacity==5.1.5
 mega.py==1.0.8
+mega
