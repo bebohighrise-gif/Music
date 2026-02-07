@@ -199,6 +199,18 @@ class RadioStation:
                     preload_trigger_byte = max(0, int(total_bytes * (duration_ms - preload_time_ms) / duration_ms))
                     preload_done = False
                     
+                    # 📢 NOTIFICAR NOW PLAYING JUSTO AL INICIAR EL AUDIO
+                    if self.bot_instance:
+                        try:
+                            duration_ms_actual = track.get("duration", 0) * 1000 if track.get("duration") else duration_ms
+                            duration_str = format_seconds(int(duration_ms_actual / 1000))
+                            msg = f"<#90EE90>🎧 Now playing:\n<#90EE90>{track['name']}\n<#90EE90>⏱️ ({duration_str})\n<#90EE90>👤 @{track.get('username', 'System')}"
+                            asyncio.run_coroutine_threadsafe(self.bot_instance.highrise.chat(msg), self.bot_instance.loop)
+                            now_playing_sent = True
+                            self.track_start_time = time.time()
+                        except Exception as e:
+                            print(f"[RADIO] Error enviando Now playing inicial: {e}")
+
                     start_time = time.time()
                     for i in range(0, total_bytes, bytes_per_500ms):
                         if not self.running or self.skip_current: break
@@ -206,18 +218,6 @@ class RadioStation:
                         # ⏸️ MANEJO DE PAUSA INSTANTÁNEA
                         while self.paused and self.running and not self.skip_current:
                             time.sleep(0.1)
-
-                        # 📢 NOTIFICAR AL ENVIAR EL PRIMER CHUNK DE AUDIO
-                        if not now_playing_sent and self.bot_instance:
-                            try:
-                                duration_ms_actual = track.get("duration", 0) * 1000 if track.get("duration") else duration_ms
-                                duration_str = format_seconds(int(duration_ms_actual / 1000))
-                                msg = f"<#90EE90>🎧 Now playing:\n<#90EE90>{track['name']}\n<#90EE90>⏱️ ({duration_str})\n<#90EE90>👤 @{track.get('username', 'System')}"
-                                asyncio.run_coroutine_threadsafe(self.bot_instance.highrise.chat(msg), self.bot_instance.loop)
-                                now_playing_sent = True
-                                # Reset start time here to be more accurate with chat notification
-                                self.track_start_time = time.time()
-                            except: pass
 
                         chunk = mp3_data[i:i + bytes_per_500ms]
                         self.pre_buffer.extend(chunk)
