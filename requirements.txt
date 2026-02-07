@@ -1,9 +1,10 @@
-highrise-bot-sdk>=24.1.0
+pendulum>=3.0.0,<4.0.0
+highrise-bot-sdk --no-deps
 Flask==3.0.2
 requests==2.31.0
 gunicorn==21.2.0
 pydub
 yt-dlp
-tenacity==5.1.5
+tenacity>=8.2.0
 mega.py==1.0.8
 mega
