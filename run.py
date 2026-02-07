@@ -1085,7 +1085,7 @@ if __name__ == "__main__":
     # para mantener la conexión activa sin ser interrumpido por el worker de Flask.
     # Flask correrá en un hilo secundario para servir la web.
     
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ["PORT"])
     flask_thread = threading.Thread(
         target=lambda: app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False), 
         daemon=True
