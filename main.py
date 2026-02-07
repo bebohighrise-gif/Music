@@ -104,6 +104,7 @@ def buscar_y_descargar(song_or_link):
         'no_warnings': True,
         'default_search': 'ytsearch',
         'source_address': '0.0.0.0',
+        'extractor_args': {'youtube': {'player_client': ['web', 'mweb']}},
     }
     search_query = song_or_link if song_or_link.startswith("http") else f"ytsearch1:{song_or_link}"
     try:
@@ -247,9 +248,46 @@ class HighriseBot(BaseBot):
                 await self.highrise.send_whisper(user.id, f"🌐 Tu URL personalizada:\nhttps://{domain}/nocturno.mp3")
 
             elif message.startswith("/wallet"):
-                # Cargamos datos de forma independiente
-                user_data = get_user_data(user.id)
-                await self.highrise.send_whisper(user.id, f"💰 @{user.username}, tienes {user_data['requests']} créditos para canciones.")
+                if admin:
+                    try:
+                        from highrise.models import GetWalletRequest
+                        response = await self.highrise.get_wallet()
+                        if hasattr(response, 'content'):
+                            # Find gold in the wallet content
+                            gold = 0
+                            for item in response.content:
+                                if item.type == 'gold':
+                                    gold = item.amount
+                                    break
+                            await self.highrise.send_whisper(user.id, f"💰 El bot tiene {gold} de oro en su billetera.")
+                        else:
+                            await self.highrise.send_whisper(user.id, "💰 No se pudo consultar la billetera.")
+                    except Exception as e:
+                        print(f"[BOT] Error en /wallet: {e}")
+                        await self.highrise.send_whisper(user.id, "💰 Error al consultar la billetera.")
+                else:
+                    user_data = get_user_data(user.id)
+                    await self.highrise.send_whisper(user.id, f"💰 @{user.username}, tienes {user_data['requests']} créditos para canciones.")
+
+            elif message.startswith("/retirar") and admin:
+                try:
+                    parts = message.split()
+                    if len(parts) >= 2:
+                        cantidad = int(parts[1])
+                        if 1 <= cantidad <= 10000:
+                            # Transfer gold to the admin
+                            # In highrise SDK, tip is used for transfers
+                            # But tip might be for user-to-user in room
+                            # The SDK has tip_user(user_id, amount)
+                            await self.highrise.tip_user(user.id, f"gold_{cantidad}")
+                            await self.highrise.chat(f"💸 He enviado {cantidad} de oro a @{user.username}")
+                        else:
+                            await self.highrise.send_whisper(user.id, "❌ La cantidad debe estar entre 1 y 10000.")
+                    else:
+                        await self.highrise.send_whisper(user.id, "❌ Usa: /retirar <cantidad>")
+                except Exception as e:
+                    print(f"[BOT] Error en /retirar: {e}")
+                    await self.highrise.send_whisper(user.id, "❌ Error al procesar el retiro. Asegúrate de que el bot tenga suficiente oro.")
 
             elif message.startswith("/play"):
                 song = message.split(" ", 1)[1].strip() if " " in message else ""

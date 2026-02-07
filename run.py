@@ -34,6 +34,13 @@ def run_highrise_bot():
             from main import Bot
             from highrise.__main__ import BotDefinition, main as highrise_main
             
+            # Railway specific: ensure we are using the correct event loop
+            try:
+                loop = asyncio.get_running_loop()
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+            
             with open("config.json", "r", encoding="utf-8") as f:
                 current_config = json.load(f)
                 
