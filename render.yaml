@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: nocturno
+    env: python
+    buildCommand: "pip install -r requirements.txt && apt-get update && apt-get install -y ffmpeg"
+    startCommand: "gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 run:app"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0

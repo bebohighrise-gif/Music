@@ -1,0 +1,29 @@
+{
+  "room_id": "686c527e9668a3cb40e1f58d",
+  "api_token": "e85f532a8d3060b6e6bc2ebafdf9a657d052c51897524926f4e6b226edd7d68d",
+  "admins": [
+    "669da7b73867bac51391c757",
+    "64dc252537db1cdb8e202d8d"
+  ],
+  "default_requests": 3,
+  "gold_required": 10,
+  "welcome_message": "👋 Bienvenido @user\n🤖 DJ automático activo\n🎶 Usa /play para pedir música",
+  "auto_messages": [
+    "🤖 DJ automático activo 🎧 Música continua",
+    "🎵 Usa /play para pedirme música",
+    "💰 Envía oro para obtener más pedidos"
+  ],
+  "anchor_position": {
+    "x": 1.5,
+    "y": 0.25,
+    "z": 3.0
+  },
+  "crossfade": 15,
+  "auto_message": "‼️ RENUNCIE DE LA CANTINA AHORA SOY TU DJ ‼️ 120",
+  "spawn_position": {
+    "x": 15.5,
+    "y": 16.0,
+    "z": 2.5,
+    "facing": "FrontRight"
+  }
+}

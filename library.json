@@ -1,0 +1,13 @@
+{
+  "usuarios": {
+    "usuario123": {
+      "favoritos": [
+        "Gasolina Daddy Yankee",
+        "Despacito Luis Fonsi"
+      ]
+    },
+    "usuario456": {
+      "favoritos": []
+    }
+  }
+}

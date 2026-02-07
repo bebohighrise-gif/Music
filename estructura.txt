@@ -1,0 +1,122 @@
+🎵 RESUMEN COMPLETO DEL BOT DJ AUTOMÁTICO 🎵
+
+---
+
+## MENSAJES DEL BOT
+
+**Bienvenida al entrar a la sala:**
+👋 Bienvenido @user
+🤖 DJ automático activo
+🎶 Usa /play para pedir música
+
+**Mensajes automáticos periódicos:**
+🤖 ¿Quién soy?
+🎧 Soy el DJ automático de la sala, busco, descargo y reproduzco música de forma continua para que la música nunca se detenga.
+🎵 Para ver mis comandos y cómo pedirme canciones, usa /help
+
+**Mensajes de susurro (DM) al usar /play, separados:** ⏳ Espera un momento…
+
+🔍 Buscando en YouTube▶️: 
+
+<nombre canción>
+
+**Mensajes públicos al descargar y reproducir:** 💾 Descargado exitosamente✅: 
+
+<Nombre de música verdadera>
+
+ ⏳Duración:(xxs)
+
+**Mensajes de límite de pedidos:**
+
+ ⛔ Límite alcanzado @user 
+
+Pedidos:(0) 💰 
+
+Envía 10 de oro para volver a pedir música
+
+---
+
+## COMANDOS DE USUARIO
+
+/play <nombre canción + cantante>  → Pide una canción por nombre
+/play              → Pide una canción directamente desde YouTube
+/wallet                           → Ver oro disponible del usuario
+/retirar                → Retirar oro y agregar pedidos si es suficiente
+/help                              → Muestra ayuda sobre comandos y funcionamiento
+/favoritos                         → Lista tus canciones guardadas como favoritas
+
+**Notas:**
+
+* Límite de pedidos por usuario: 3 (por defecto)
+* Si no hay pedidos, enviar 10 de oro para recargar
+* Mensajes de búsqueda/descarga: susurro separados
+* Mensajes de descarga exitosa o reproducción: público
+
+---
+
+## COMANDOS DE ADMIN / OWNER
+
+/copy                               → Copia el outfit del admin/owner (otros usuarios no pueden usarlo)
+/add_auto_msg              → Añade un mensaje automático sin detener los existentes
+/remove_auto_msg           → Elimina un mensaje automático
+/set_music <archivo.mp3>            → Añade música local directamente a la emisora desde admin
+/set_limit              → Cambia el límite de pedidos de un usuario
+/set_gold        → Ajusta la cantidad de oro de un usuario
+
+---
+
+## FUNCIONAMIENTO DE LA EMISORA / RADIO
+
+1. Música local:
+
+   * Se reproduce cuando no hay pedidos en cola
+   * Se puede subir desde la web de control (.mp3)
+   * Reproduce en bucle hasta que llegue un pedido de usuario
+
+2. Pedidos de usuarios:
+
+   * Se agregan a la cola de reproducción
+   * Fade de 10 segundos entre canciones
+   * Al terminar pedido, si no hay otro, se retoma música local
+
+3. Fade entre canciones:
+
+   * Canción que termina: fade out 10s
+   * Canción siguiente: fade in 10s
+
+4. Favoritos de usuarios:
+
+   * Guardar canciones, no prioridad en cola
+
+5. Streaming HTTP para Highrise:
+   http://<IP_DEL_SERVIDOR>:5000/stream
+
+---
+
+## WEB DE CONTROL
+
+URL: http://<IP_DEL_SERVIDOR>:5000
+
+* Subir música local (.mp3) a carpeta music/
+* Ver canción actualmente reproducida
+* Ver lista de música local
+* Obtener URL de streaming para Highrise
+
+---
+
+## PERSISTENCIA
+
+* Usuarios y pedidos: users.json
+* Favoritos: library.json
+* Música: music/ (local + descargas YouTube)
+
+---
+
+## FLUJO GENERAL DE REPRODUCCIÓN
+
+1. Usuario pide /play
+2. Bot verifica pedidos disponibles
+3. Bot busca canción en music/ o la descarga desde YouTube
+4. Canción agregada a cola de emisora
+5. Reproducción en orden con fade de 10s
+6. Al terminar cola, se reproduce música local automáticamente
