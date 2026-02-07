@@ -6,4 +6,4 @@ requests==2.31.0
 gunicorn==21.2.0
 pydub==0.25.1
 yt-dlp
-mega.py==1.0.8
+mega.py
