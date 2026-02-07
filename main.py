@@ -302,8 +302,8 @@ class HighriseBot(BaseBot):
 
                 # El bot solo gestiona la descarga y el archivo, no el objeto radio
                 # Simplemente avisamos que se ha añadido (la radio lo detectará por archivo)
-                await self.highrise.send_whisper(user.id, "⏳ Preparando tu solicitud...")
-                await self.highrise.send_whisper(user.id, f"<#FFD580>🎧 Buscando:\n{song}\n📡 Fuente: YouTube")
+                await self.highrise.send_whisper(user.id, "⏳ Procesando tu solicitud...")
+                await self.highrise.send_whisper(user.id, f"<#FFD580>🎧 Descargando:\n{song}\n📡 YouTube")
                 threading.Thread(target=self.cmd_play_thread, args=(user, song, self.loop), daemon=True).start()
 
             elif message.startswith("/fav clear"):
