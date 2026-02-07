@@ -1,0 +1,12 @@
+pendulum>=3.0.0,<4.0.0
+<<<<<<< HEAD
+highrise-bot-sdk==24.1.0
+=======
+tenacity>=8.2.0
+>>>>>>> 83c0954a95a1c9d6b5dc7d8574f4ee068b50a2c8
+Flask==3.0.2
+requests==2.31.0
+gunicorn==21.2.0
+pydub==0.25.1
+yt-dlp
+mega.py==1.0.8
